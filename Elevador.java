@@ -3,7 +3,7 @@ import java.util.Random;
 public class Elevador {
     private int id;
     private int andarAtual;
-    private int capacidade; // Capacidade máxima de passageiros
+    private int capacidade;
     private int pesoAtual;
     private int passageirosAtuais;
     private FilaPrioridade filaPrioridade;
@@ -31,7 +31,6 @@ public class Elevador {
             painelControle.selecionarAndar(pessoa.getAndarDestino());
             return true;
         } else {
-            System.out.println("Capacidade ou peso excede o limite do elevador.");
             return false;
         }
     }
@@ -44,13 +43,11 @@ public class Elevador {
             int tempoViagem = calcularTempoViagem();
             energiaConsumida += config.consumoEnergiaDeslocamento * Math.abs(andarDestino - andarAtual);
             energiaConsumida += config.consumoEnergiaParada;
-            System.out.println("Atendendo " + pessoa.getNome() + " no andar " + andarDestino);
-            System.out.println("Tempo estimado de viagem: " + tempoViagem + " segundos");
-            System.out.println("Energia consumida até agora: " + energiaConsumida + " unidades");
+            System.out.println("Elevador " + id + " atendendo " + pessoa.getNome() + " no andar " + andarDestino);
+            System.out.println("Tempo estimado: " + tempoViagem + " segundos");
+            System.out.println("Energia total consumida: " + energiaConsumida + " unidades");
             pesoAtual -= pessoa.getPeso();
             passageirosAtuais--;
-        } else {
-            System.out.println("Nenhuma pessoa na fila.");
         }
     }
 
@@ -59,36 +56,20 @@ public class Elevador {
         return rand.nextInt(config.tempoMaximoViagem - config.tempoMinimoViagem + 1) + config.tempoMinimoViagem;
     }
 
+    public void moverParaAndar(int andarDestino) {
+        System.out.println("Elevador " + id + " indo do andar " + andarAtual + " para o andar " + andarDestino);
+        andarAtual = andarDestino;
+    }
+
     public int getAndarAtual() {
         return andarAtual;
     }
 
-    // public void moverParaAndar(int andarDestino) {
-    //     System.out.println("Elevador " + id + " movendo-se do andar " + andarAtual + " para o andar " + andarDestino);
-    //     andarAtual = andarDestino;
-    // }
-
-    public void moverParaAndar(int andarDestino) {
-    System.out.println("Elevador " + id + " iniciando deslocamento do andar " + andarAtual + " para o andar " + andarDestino);
-    
-    while (andarAtual != andarDestino) {
-        if (andarAtual < andarDestino) {
-            andarAtual++;
-        } else {
-            andarAtual--;
-        }
-
-        System.out.println("Elevador " + id + " no andar " + andarAtual);
-        
-        // Simula o tempo de deslocamento entre andares
-        try {
-            Thread.sleep(1000); // 1 segundo por andar
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
+    public int getId() {
+        return id;
     }
 
-    System.out.println("Elevador " + id + " chegou ao andar " + andarDestino);
-}
-
+    public boolean temPessoas() {
+        return filaPrioridade.temPessoas();
+    }
 }
