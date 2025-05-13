@@ -1,39 +1,32 @@
-import java.io.Serializable;
-
-public class Pessoa implements Serializable {
-    private int id;
-    private int andarOrigem;
+public class Pessoa {
+    private String nome;
+    private int idade;
+    private boolean cadeirante;
+    private int peso;
     private int andarDestino;
-    private boolean dentroElevador;
 
-    public Pessoa(int id, int origem, int destino) {
-        this.id = id;
-        this.andarOrigem = origem;
-        this.andarDestino = destino;
-        this.dentroElevador = false;
+    public Pessoa(String nome, int idade, boolean cadeirante, int peso, int andarDestino) {
+        this.nome = nome;
+        this.idade = idade;
+        this.cadeirante = cadeirante;
+        this.peso = peso;
+        this.andarDestino = andarDestino;
     }
 
-    public int getId() {
-        return id;
+    public int getPrioridade() {
+        if (cadeirante || idade >= 60) return 1;
+        return 2;
     }
 
-    public int getAndarOrigem() {
-        return andarOrigem;
+    public int getPeso() {
+        return peso;
     }
 
     public int getAndarDestino() {
         return andarDestino;
     }
 
-    public boolean estaDentroDoElevador() {
-        return dentroElevador;
-    }
-
-    public void entrarElevador() {
-        this.dentroElevador = true;
-    }
-
-    public void sairElevador() {
-        this.dentroElevador = false;
+    public String getNome() {
+        return nome;
     }
 }
